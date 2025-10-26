@@ -44,7 +44,7 @@ namespace GerarPDF.Controllers
           _logger.LogInformation("Salvando PDF");
           var pdfBytes = PDFUtils.GerarPDF(Usuarios);
 
-          return File(pdfBytes, "application/octet-stream", "usuarios.pdf"); ;
+          return File(pdfBytes, "application/octet-stream", $"Relatório de Usuários {DateTime.Now:yyyyMMdd_HHmm}.pdf"); ;
       }
     }
 }
