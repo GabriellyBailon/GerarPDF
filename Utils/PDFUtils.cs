@@ -1,6 +1,7 @@
 ﻿using GerarPDF.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System.Reflection.Emit;
 
 namespace GerarPDF.Utils
 {
@@ -28,26 +29,38 @@ namespace GerarPDF.Utils
 
             doc.Open();
 
-            //criando uma string vazia
-            string dados = "";
+            // Fonte
+            var fonteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+            var fonteTexto = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+
+            // Título
+            doc.Add(new Paragraph("Relatório de Usuários", fonteTitulo));
+            doc.Add(new Paragraph(" ")); // Espaço
+
+            // Cria uma tabela com 2 colunas
+            PdfPTable tabela = new PdfPTable(2);
+
+            // Cabeçalho das colunas
+            tabela.AddCell(new PdfPCell(new Phrase("Campo", fonteTexto)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+            tabela.AddCell(new PdfPCell(new Phrase("Valor", fonteTexto)) { BackgroundColor = BaseColor.LIGHT_GRAY });
 
             foreach (var usuario in usuarios)
             {
-                Paragraph paragrafo = new Paragraph(dados,
-                new Font(Font.NORMAL, 14));
+                tabela.WidthPercentage = 100;
+                tabela.SpacingBefore = 10f;
+                tabela.SpacingAfter = 10f;
 
-                //estipulando o alinhamneto
-                paragrafo.Alignment = Element.ALIGN_JUSTIFIED;
-                //Alinhamento Justificado
-
-                //adicioando texto
-                paragrafo.Add($"ID: {usuario.Id}\n" +
-                $"Nome: {usuario.Nome}\n" +
-                $"Email: {usuario.Email}\n\n");
-                //acidionado paragrafo ao documento
-
-                doc.Add(paragrafo);
+                // Adiciona propriedades do usuário
+                tabela.AddCell("Nome");
+                tabela.AddCell(usuario.Nome);
+                tabela.AddCell("Email");
+                tabela.AddCell(usuario.Email);
+                tabela.AddCell("Id");
+                tabela.AddCell(usuario.Id.ToString());
             }
+
+            // Adiciona tabela ao documento
+            doc.Add(tabela);
 
             //fechando documento para que seja salva as alteraçoes.
             doc.Close();
