@@ -32,23 +32,11 @@ namespace GerarPDF.Utils
                 PdfPTable tabela = new PdfPTable(2);
 
                 // Cabeçalho das colunas
-                tabela.AddCell(new PdfPCell(new Phrase("Campo", fonteTexto)) { BackgroundColor = BaseColor.LIGHT_GRAY });
-                tabela.AddCell(new PdfPCell(new Phrase("Valor", fonteTexto)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                AdicionarCabecalho("Campo", fonteTexto, tabela);
+                AdicionarCabecalho("Valor", fonteTexto, tabela);
 
-                foreach (var usuario in usuarios)
-                {
-                    tabela.WidthPercentage = 100;
-                    tabela.SpacingBefore = 10f;
-                    tabela.SpacingAfter = 10f;
-
-                    // Adiciona propriedades do usuário
-                    tabela.AddCell("Id");
-                    tabela.AddCell(usuario.Id.ToString());
-                    tabela.AddCell("Nome");
-                    tabela.AddCell(usuario.Nome);
-                    tabela.AddCell("Email");
-                    tabela.AddCell(usuario.Email);
-                }
+                // Adiciona os usuários à tabela
+                AdicionarUsuarios(usuarios, tabela);
 
                 // Adiciona tabela ao documento
                 doc.Add(tabela);
@@ -59,5 +47,32 @@ namespace GerarPDF.Utils
                 return ms.ToArray();
             }
         }
+
+        #region Métodos Auxiliares
+
+        private static void AdicionarUsuarios(List<UsuarioModel> usuarios, PdfPTable tabela)
+        {
+            foreach (var usuario in usuarios)
+            {
+                tabela.WidthPercentage = 100;
+                tabela.SpacingBefore = 10f;
+                tabela.SpacingAfter = 10f;
+
+                // Adiciona propriedades do usuário
+                tabela.AddCell("Id");
+                tabela.AddCell(usuario.Id.ToString());
+                tabela.AddCell("Nome");
+                tabela.AddCell(usuario.Nome);
+                tabela.AddCell("Email");
+                tabela.AddCell(usuario.Email);
+            }
+        }
+
+        private static void AdicionarCabecalho(string nomeCabecalho, Font fonteTexto, PdfPTable tabela)
+        {
+            tabela.AddCell(new PdfPCell(new Phrase(nomeCabecalho, fonteTexto)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+        }
+
+        #endregion Métodos Auxiliares
     }
 }
