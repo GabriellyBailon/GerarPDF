@@ -42,9 +42,9 @@ namespace GerarPDF.Controllers
       public IActionResult ObterPDF()
       {
           _logger.LogInformation("Salvando PDF");
-          PDFUtils.GerarPDF(Usuarios);
+          var pdfBytes = PDFUtils.GerarPDF(Usuarios);
 
-          return Ok();
+          return File(pdfBytes, "application/octet-stream", "usuarios.pdf"); ;
       }
     }
 }
