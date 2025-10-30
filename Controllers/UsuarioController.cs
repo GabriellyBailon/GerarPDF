@@ -12,11 +12,11 @@ namespace GerarPDF.Controllers
         private readonly ILogger<UsuarioController> _logger;
         private readonly List<UsuarioModel> Usuarios = new()
         {
-            new UsuarioModel(1, "João Silva", "user1@gmail.com.br"),
-            new UsuarioModel(2, "Marcos Palmeira", "user2@gmail.com.br"),
-            new UsuarioModel(3, "Givanildo", "user3@gmail.com.br"),
-            new UsuarioModel(4, "Mark Ruffalo", "user4@gmail.com.br"),
-            new UsuarioModel(5, "Robert Downey Júnior", "user5@gmail.com.br")
+            new UsuarioModel("João Silva", "user1@gmail.com.br", Guid.NewGuid()),
+            new UsuarioModel("Marcos Palmeira", "user2@gmail.com.br", Guid.NewGuid()),
+            new UsuarioModel("Givanildo", "user3@gmail.com.br", Guid.NewGuid()),
+            new UsuarioModel("Mark Ruffalo", "user4@gmail.com.br", Guid.NewGuid()),
+            new UsuarioModel("Robert Downey Júnior", "user5@gmail.com.br", Guid.NewGuid())
         };
 
         public UsuarioController(ILogger<UsuarioController> logger)

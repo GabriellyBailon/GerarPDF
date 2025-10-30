@@ -1,14 +1,21 @@
-﻿namespace GerarPDF.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GerarPDF.Models
 {
     public class UsuarioModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+
+        [Required]
         public string Nome { get; set; }
+
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
-        public UsuarioModel(int id, string nome, string email)
+        public UsuarioModel(string nome, string email, Guid? id = null)
         {
-            Id = id;
+            Id = id ?? Guid.NewGuid();
             Nome = nome;
             Email = email;
         }

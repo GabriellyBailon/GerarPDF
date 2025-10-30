@@ -8,6 +8,9 @@ namespace GerarPDF.Utils
     {
         public static byte[] GerarPDF(List<UsuarioModel> usuarios)
         {
+            if (usuarios == null || usuarios.Count == 0)
+                throw new ArgumentException("A lista de usuários não pode ser nula ou vazia.");
+
             using (var ms = new MemoryStream())
             {
                 Document doc = new Document(PageSize.A4);
@@ -54,6 +57,8 @@ namespace GerarPDF.Utils
         {
             foreach (var usuario in usuarios)
             {
+                ValidarUsuario(usuario);
+
                 tabela.WidthPercentage = 100;
                 tabela.SpacingBefore = 10f;
                 tabela.SpacingAfter = 10f;
@@ -71,6 +76,18 @@ namespace GerarPDF.Utils
         private static void AdicionarCabecalho(string nomeCabecalho, Font fonteTexto, PdfPTable tabela)
         {
             tabela.AddCell(new PdfPCell(new Phrase(nomeCabecalho, fonteTexto)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+        }
+
+        private static void ValidarUsuario(UsuarioModel usuario)
+        {
+            if (usuario == null)
+                throw new ArgumentException("Usuário não pode ser nulo.");
+
+            if (string.IsNullOrWhiteSpace(usuario.Nome))
+                throw new ArgumentException("Nome do usuário não pode ser nulo ou vazio.");
+
+            if (string.IsNullOrWhiteSpace(usuario.Email))
+                throw new ArgumentException("Email do usuário não pode ser nulo ou vazio.");
         }
 
         #endregion Métodos Auxiliares
