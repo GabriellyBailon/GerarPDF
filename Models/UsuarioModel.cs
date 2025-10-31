@@ -10,8 +10,9 @@ namespace GerarPDF.Models
         public string Nome { get; set; }
 
         [Required]
-        [EmailAddress]
         public string Email { get; set; }
+
+        public UsuarioModel(){ }
 
         public UsuarioModel(string nome, string email, Guid? id = null)
         {
